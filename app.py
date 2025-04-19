@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session, url_for
 from models import quiz_model as model
 from werkzeug.security import generate_password_hash, check_password_hash
 import random
+import os
 
 app = Flask(__name__)
 app.secret_key = 'gedebdfdvf'  # Replace with a secure key in production
@@ -157,4 +158,5 @@ def submit_quiz():
 # ------------ MAIN ------------
 
 if __name__ == '__main__':
-    app.run(debug=True,host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
