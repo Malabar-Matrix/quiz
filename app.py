@@ -4,9 +4,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import random
 import os
 
+from flask_vercel import Vercel
+
 app = Flask(__name__)
 app.secret_key = 'gedebdfdvf'  # Replace with a secure key in production
 
+app = Vercel(app)
 # ------------ ADMIN ROUTES ------------
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -153,10 +156,4 @@ def submit_quiz():
     model.save_result(quiz_id, session.get('student_name'), score)
     return render_template('result.html', score=score, total=total)
 
-
-
-# ------------ MAIN ------------
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
 
