@@ -1,5 +1,4 @@
 Flask
-flask-vercel
 pymongo
 dnspython
 werkzeug
