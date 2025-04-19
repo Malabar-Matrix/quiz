@@ -221,4 +221,6 @@ def delete_question(quiz_id, question_name):
     )
 
 
+if __name__ == '__main__':
+    app.run()
 
