@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = 'gedebdfdvf'  # Replace with a secure key in production
 
 
-client = MongoClient("mongodb+srv://plusonemate:i1fSauSG2uJ9YsWQ@instant-ink.te2pr.mongodb.net/?retryWrites=true&w=majority&appName=instant-ink")
+client = MongoClient(os.environ.get("MONGODB_URI"))
 db = client['quiz_db']
 # ------------ ADMIN ROUTES ------------
 
