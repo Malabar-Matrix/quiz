@@ -78,6 +78,13 @@ def admin_logout():
     session.pop('admin', None)
     return redirect('/admin')
 
+@app.route('/admin/delete_quiz/<quiz_id>')
+def delete_quiz_admin(quiz_id):
+    if not session.get('admin'):
+        return redirect('/admin')
+    model.delete_quiz(quiz_id)
+    return redirect('/admin/dashboard')
+
 
 # ------------ STUDENT ROUTES ------------
 

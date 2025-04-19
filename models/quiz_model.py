@@ -37,3 +37,6 @@ def save_result(quiz_id, name, score):
 
 def get_results(quiz_id):
     return list(db.results.find({'quiz_id': ObjectId(quiz_id)}))
+
+def delete_quiz(quiz_id):
+    db.quizzes.delete_one({'_id': ObjectId(quiz_id)})
