@@ -4,13 +4,11 @@ import random
 import os
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from flask_vercel import Vercel
 
 
 app = Flask(__name__)
 app.secret_key = 'gedebdfdvf'  # Replace with a secure key in production
 
-app = Vercel(app) 
 
 client = MongoClient("mongodb+srv://plusonemate:i1fSauSG2uJ9YsWQ@instant-ink.te2pr.mongodb.net/?retryWrites=true&w=majority&appName=instant-ink")
 db = client['quiz_db']
