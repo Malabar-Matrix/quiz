@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    input[type="text"] {
+      padding: 15px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      transition: background 0.3s ease;
+    }
+    input[type="text"]::placeholder {
+      color: #ddd;
+    }
+    input[type="text"]:focus {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    button {
+      padding: 15px;
+      font-size: 1rem;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+    p {
+      font-size: 1rem;
+      color: #ddd;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Quiz Portal</h1>
+    {% if quiz %}
+      <form action="/start_quiz" method="post">
+        <input type="text" name="student_name" placeholder="Enter your name" required>
+        <button type="submit">Start Quiz</button>
+      </form>
+    {% else %}
+      <p>No quiz is currently active.</p>
+    {% endif %}
+  </div>
+  <footer>
+    Made with ❤️ by <a href="https://instagram.com/sidd.err" target="_blank">@sidd.err</a>
+  </footer>
+</body>
+</html>

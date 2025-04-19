@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Quiz</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+    }
+    h2, h3 {
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    input, textarea, button {
+      padding: 15px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      transition: background 0.3s ease;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #ddd;
+    }
+    input:focus, textarea:focus {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form method="post">
+      <h2>Create New Quiz</h2>
+      <input name="name" placeholder="Quiz Name" required>
+      <textarea name="desc" placeholder="Description"></textarea>
+      <button type="submit">Create</button>
+    </form>
+
+    {% if quiz %}
+    <form method="post">
+      <h3>Add Question to: {{ quiz.name }}</h3>
+      <input name="question" placeholder="Question" required>
+      <input name="opt1" placeholder="Option 1" required>
+      <input name="opt2" placeholder="Option 2" required>
+      <input name="opt3" placeholder="Option 3" required>
+      <input name="opt4" placeholder="Option 4" required>
+      <input name="answer" placeholder="Correct Answer" required>
+      <button type="submit">Add Question</button>
+    </form>
+    {% endif %}
+  </div>
+</body>
+</html>
