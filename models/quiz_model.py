@@ -22,6 +22,9 @@ def set_active_quiz(quiz_id):
     db.quizzes.update_many({}, {'$set': {'active': False}})
     db.quizzes.update_one({'_id': ObjectId(quiz_id)}, {'$set': {'active': True}})
 
+def set_quiz_inactive(quiz_id):
+    db.quizzes.update_one({'_id': ObjectId(quiz_id)}, {'$set': {'active': False}})
+
 def get_active_quiz():
     return db.quizzes.find_one({'active': True})
 
@@ -40,3 +43,18 @@ def get_results(quiz_id):
 
 def delete_quiz(quiz_id):
     db.quizzes.delete_one({'_id': ObjectId(quiz_id)})
+    db.results.delete_many({'quiz_id': ObjectId(quiz_id)})
+
+
+def update_quiz_details(quiz_id, name, desc):
+    db.quizzes.update_one(
+        {'_id': ObjectId(quiz_id)},
+        {'$set': {'name': name, 'description': desc}}
+    ) 
+
+def delete_question(quiz_id, question_name):
+    db.quizzes.update_one(
+        {'_id': ObjectId(quiz_id)},
+        {'$pull': {'questions': {'question': question_name}}}
+    )
+

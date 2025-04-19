@@ -34,8 +34,33 @@ def create_quiz():
         name = request.form['name']
         desc = request.form['desc']
         quiz_id = model.create_quiz(name, desc).inserted_id
-        return redirect(f'/admin/add_question/{quiz_id}')
+        return redirect(f'/admin/edit_quiz/{quiz_id}')
     return render_template('create_quiz.html')
+
+@app.route('/admin/edit_quiz/<quiz_id>', methods=['GET', 'POST'])
+def edit_quiz(quiz_id):
+    if not session.get('admin'):
+        return redirect('/admin')
+    quiz = model.get_quiz_by_id(quiz_id)
+    if not quiz:
+        return redirect('/admin/dashboard')
+    return render_template('edit_quiz.html', quiz=quiz)
+
+@app.route('/admin/update_quiz_info/<quiz_id>', methods=['POST'])
+def update_quiz_info(quiz_id):
+    if not session.get('admin'):
+        return redirect('/admin')
+    name = request.form['name']
+    desc = request.form['desc']
+    model.update_quiz_details(quiz_id, name, desc)
+    return redirect(f'/admin/edit_quiz/{quiz_id}')
+
+@app.route('/admin/delete_question/<quiz_id>/<name>', methods=['POST'])
+def delete_question(quiz_id, name):
+    if not session.get('admin'):
+        return redirect('/admin')
+    model.delete_question(quiz_id,name)
+    return redirect(f'/admin/edit_quiz/{quiz_id}')
 
 @app.route('/admin/add_question/<quiz_id>', methods=['GET', 'POST'])
 def add_question(quiz_id):
@@ -56,7 +81,7 @@ def add_question(quiz_id):
             'answer': request.form['answer']
         }
         model.add_question(quiz_id, question)
-    return render_template('create_quiz.html', quiz=quiz)
+        return redirect(f'/admin/edit_quiz/{quiz_id}')
 
 @app.route('/admin/activate/<quiz_id>')
 def activate_quiz(quiz_id):
@@ -65,11 +90,19 @@ def activate_quiz(quiz_id):
     model.set_active_quiz(quiz_id)
     return redirect('/admin/dashboard')
 
+@app.route('/admin/deactivate/<quiz_id>')
+def deactivate_quiz(quiz_id):
+    if not session.get('admin'):
+        return redirect('/admin')
+    model.set_quiz_inactive(quiz_id)
+    return redirect('/admin/dashboard')
+
 @app.route('/admin/results/<quiz_id>')
 def view_results(quiz_id):
     if not session.get('admin'):
         return redirect('/admin')
     results = model.get_results(quiz_id)
+    results.sort(key=lambda x: x['score'], reverse=True)
     quiz = model.get_quiz_by_id(quiz_id)
     return render_template('view_results.html', results=results, quiz=quiz)
 

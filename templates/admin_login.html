@@ -7,15 +7,16 @@
   <style>
     body {
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      background-color: #0f172a;
+      color: #f1f5f9;
+      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
-      color: #fff;
       position: relative;
     }
+
     .login-container {
       background-color: rgba(255, 255, 255, 0.1);
       padding: 30px 40px;
@@ -25,11 +26,14 @@
       text-align: center;
       backdrop-filter: blur(10px);
     }
+
     .login-container h2 {
       margin-bottom: 25px;
       font-size: 24px;
       font-weight: bold;
+      color: #f8fafc;
     }
+
     .login-container input {
       width: 100%;
       padding: 12px;
@@ -38,15 +42,18 @@
       border-radius: 6px;
       font-size: 14px;
       background-color: rgba(255, 255, 255, 0.2);
-      color: #fff;
+      color: #f1f5f9;
     }
+
     .login-container input::placeholder {
       color: #ddd;
     }
+
     .login-container input:focus {
       outline: none;
       background-color: rgba(255, 255, 255, 0.3);
     }
+
     .login-container button {
       width: 100%;
       padding: 12px;
@@ -59,9 +66,11 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     .login-container button:hover {
       background-color: #45a049;
     }
+
     .login-container a {
       display: block;
       margin-top: 15px;
@@ -69,9 +78,11 @@
       font-size: 14px;
       text-decoration: none;
     }
+
     .login-container a:hover {
       text-decoration: underline;
     }
+
     .watermark {
       position: absolute;
       bottom: 10px;
@@ -80,13 +91,16 @@
       text-align: center;
       width: 100%;
     }
+
     .watermark a {
-      color: #fff;
+      color: #f1f5f9;
       text-decoration: none;
     }
+
     .watermark a:hover {
       text-decoration: underline;
     }
+
   </style>
 </head>
 <body>
@@ -99,6 +113,7 @@
       <a href="#">Forgot Password?</a>
     </form>
   </div>
+
   <div class="watermark">
     Made with ❤️ by <a href="https://www.instagram.com/sidd.err/" target="_blank">sidharth</a>
   </div>

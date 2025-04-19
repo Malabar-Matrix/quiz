@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Quiz</title>
+    <style>
+        :root {
+        --primary: #1e1e2f;
+        --secondary: #29293d;
+        --accent: #4CAF50;
+        --text: #f0f0f0;
+        --muted: #aaa;
+        }
+
+        body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--primary);
+        color: var(--text);
+        }
+
+        .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        }
+
+        h2, h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.4rem;
+        }
+
+        .tab-buttons {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+        }
+
+        .tab-buttons button {
+        flex: 1 1 30%;
+        padding: 10px;
+        background: var(--secondary);
+        border: none;
+        color: var(--text);
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        }
+
+        .tab-buttons button.active {
+        background: var(--accent);
+        }
+
+        form, .section {
+        display: none;
+        flex-direction: column;
+        gap: 15px;
+        }
+
+        .section.active {
+        display: flex;
+        }
+
+        input, textarea, select {
+        background: var(--secondary);
+        color: var(--text);
+        border: none;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 1rem;
+        }
+
+        textarea {
+        resize: none;
+        height: 100px;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+        color: var(--muted);
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+        outline: 2px solid var(--accent);
+        }
+
+        select option {
+        color: #000;
+        }
+
+        button[type="submit"] {
+        background: var(--accent);
+        border: none;
+        color: white;
+        padding: 12px;
+        font-size: 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+        background: #45a049;
+        }
+
+        ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        }
+
+        .question-item {
+        background: var(--secondary);
+        padding: 12px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.95rem;
+        }
+
+        .question-item button {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        border-radius: 4px;
+        cursor: pointer;
+        }
+
+        .question-item button:hover {
+        background: #c0392b;
+        }
+
+        @media (max-width: 600px) {
+        body {
+            font-size: 0.95rem;
+        }
+
+        .container {
+            padding: 15px 10px;
+        }
+
+        .tab-buttons button {
+            font-size: 0.85rem;
+            padding: 8px;
+        }
+
+        input, textarea, select, button[type="submit"] {
+            font-size: 0.95rem;
+            padding: 10px;
+        }
+
+        .question-item {
+            font-size: 0.9rem;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .question-item button {
+            margin-top: 10px;
+            width: fit-content;
+        }
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Current Question: {{ quiz.name }}</h2>
+
+    <div class="tab-buttons">
+      <button onclick="switchTab('add')" class="active">Add Question</button>
+      <button onclick="switchTab('edit')">Edit Quiz</button>
+      <button onclick="switchTab('view')">View Questions</button>
+    </div>
+
+    <!-- Add Question -->
+    <form method="post" action="/admin/add_question/{{ quiz._id }}" class="section active" id="add">
+      <h3>Add Question</h3>
+      <input name="question" placeholder="ENTER QUESTION" required>
+      <input id="opt1" name="opt1" placeholder="Option 1" required>
+      <input id="opt2" name="opt2" placeholder="Option 2" required>
+      <input id="opt3" name="opt3" placeholder="Option 3" required>
+      <input id="opt4" name="opt4" placeholder="Option 4" required>
+
+      <select id="answer" name="answer" required>
+        <option value="" disabled selected>Select Correct Answer</option>
+      </select>
+
+      <button type="submit">Add Question</button>
+    </form>
+
+    <!-- Edit Quiz -->
+    <form method="post" action="/admin/update_quiz_info/{{ quiz._id }}" class="section" id="edit">
+      <h3>Edit Quiz Settings</h3>
+      <input type="text" name="name" placeholder="Quiz Title" value="{{ quiz.name }}" required>
+      <textarea name="desc" placeholder="Description" required>{{ quiz.description }}</textarea>
+      <button type="submit">Update Quiz</button>
+    </form>
+
+    <!-- View Questions -->
+    <div class="section" id="view">
+      <h3>Questions in Quiz</h3>
+      <ul>
+        {% for q in quiz.questions %}
+          <li class="question-item">
+            {{ q.question }}
+            <form method="post" action="/admin/delete_question/{{ quiz._id }}/{{ q._id }}">
+              <button type="submit">Delete</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const optIds = ["opt1", "opt2", "opt3", "opt4"];
+    let dropdown;
+
+    function updateDropdown() {
+      const options = optIds.map(id => document.getElementById(id).value.trim());
+      const current = dropdown.value;
+
+      dropdown.innerHTML = '<option value="" disabled>Select Correct Answer</option>';
+      options.forEach(text => {
+        if (text) {
+          const opt = document.createElement("option");
+          opt.value = text;
+          opt.textContent = text;
+          dropdown.appendChild(opt);
+        }
+      });
+
+      const match = [...dropdown.options].find(o => o.value === current);
+      if (match) dropdown.value = current;
+    }
+
+    window.onload = () => {
+      dropdown = document.getElementById("answer");
+      optIds.forEach(id => {
+        document.getElementById(id).addEventListener("input", updateDropdown);
+      });
+    };
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+
+      document.querySelectorAll('.tab-buttons button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>

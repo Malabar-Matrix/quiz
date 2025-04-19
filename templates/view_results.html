@@ -7,8 +7,8 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      color: #fff;
+      background-color: #0f172a;
+      color: #f1f5f9;
       margin: 0;
       padding: 0;
       display: flex;
@@ -16,38 +16,79 @@
       align-items: center;
       height: 100vh;
     }
+
     .container {
       text-align: center;
-      background: rgba(255, 255, 255, 0.1);
+      background: #1e293b;
       padding: 30px 40px;
-      border-radius: 15px;
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
       max-width: 500px;
-      width: 100%;
-      backdrop-filter: blur(10px);
+      width: 90%;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     }
+
     h2 {
       font-size: 2rem;
       margin-bottom: 20px;
-      color: #fff;
+      color: #f8fafc;
     }
+
     ul {
       list-style: none;
       padding: 0;
     }
+
     li {
       font-size: 1.2rem;
       margin: 10px 0;
-      background: rgba(255, 255, 255, 0.2);
+      background: #334155;
       padding: 10px;
       border-radius: 10px;
-      color: #fff;
+      color: #f1f5f9;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        font-size: 1rem;
+        align-items: flex-start;
+        padding-top: 20px;
+      }
+
+      .container {
+        padding: 20px 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(15, 23, 42, 0.7); /* subtle soft glow */
+        background: #1c2535;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      li {
+        font-size: 1rem;
+        padding: 8px;
+        background: #2c3a4f;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+      }
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 1.4rem;
+      }
+
+      li {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Results for Quiz: {{ quiz.name }}</h2>
+    <h2>Quiz Analysis: {{ quiz.name }}</h2>
     <ul>
       {% for r in results %}
         <li>{{ r.student_name }} - Score: {{ r.score }}</li>
@@ -55,4 +96,4 @@
     </ul>
   </div>
 </body>
-</html></div>
+</html>
