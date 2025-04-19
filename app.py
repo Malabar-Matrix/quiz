@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import random
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Replace with a secure key in production
+app.secret_key = 'gedebdfdvf'  # Replace with a secure key in production
 
 # ------------ ADMIN ROUTES ------------
 
