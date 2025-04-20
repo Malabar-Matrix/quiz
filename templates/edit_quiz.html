@@ -214,9 +214,8 @@
         {% for q in quiz.questions %}
           <li class="question-item">
             {{ q.question }}
-            <form method="post" action="/admin/delete_question/{{ quiz._id }}/{{ q._id }}">
-              <button type="submit">Delete</button>
-            </form>
+          <!-- </form method="post" action="/admin/delete_question/{{ quiz._id }}/{{ q._id }}"> -->
+              <button type="submit" onclick="submitDelete('{{quiz._id}}','{{ q.question}}')">Delete</button>
           </li>
         {% endfor %}
       </ul>
@@ -259,6 +258,30 @@
       document.querySelectorAll('.tab-buttons button').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
     }
+
+    function submitDelete(quizId, questionName) {
+  fetch(`/admin/delete_question/${quizId}/${questionName}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => {
+    if (response.redirected) {
+      // Flask returned a redirect — manually follow it
+      window.location.href = response.url;
+    } else if (response.ok) {
+      location.reload(); // fallback
+    } else {
+      alert('Failed to delete question');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Error deleting question');
+  });
+  }
+
   </script>
 </body>
 </html>

@@ -64,12 +64,18 @@ def update_quiz_info(quiz_id):
     db.quizzes.update_one({'_id': ObjectId(quiz_id)}, {'$set': {'name': name, 'description': desc}})
     return redirect(f'/admin/edit_quiz/{quiz_id}')
 
-@app.route('/admin/delete_question/<quiz_id>/<name>', methods=['POST'])
-def delete_question(quiz_id, name):
+@app.route('/admin/delete_question/<quiz_id>/<question_text>', methods=['POST'])
+def delete_question(quiz_id, question_text):
     if not session.get('admin'):
         return redirect('/admin')
-    db.quizzes.update_one({'_id': ObjectId(quiz_id)}, {'$pull': {'questions': {'name': name}}})
+
+    db.quizzes.update_one(
+        {'_id': ObjectId(quiz_id)},
+        {'$pull': {'questions': {'question': question_text}}}
+    )
+
     return redirect(f'/admin/edit_quiz/{quiz_id}')
+
 
 @app.route('/admin/add_question/<quiz_id>', methods=['GET', 'POST'])
 def add_question(quiz_id):
